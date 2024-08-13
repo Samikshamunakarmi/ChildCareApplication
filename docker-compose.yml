@@ -1,0 +1,23 @@
+
+
+services:
+  childcareapplication:
+    image: ${DOCKER_REGISTRY-}childcareapplication
+    build:
+      context: .
+      dockerfile: ChildCareApplication/Dockerfile
+
+ 
+  mongodb:
+    image: mongo:latest
+    container_name: mongo-seed
+    ports:
+      - "27017:27017"
+
+  mongo-seed:
+    build: ./ChildCareApplication/Mongo-Seed
+    depends_on:
+      - mongodb
+    container_name: mongo-seed-init
+    restart: "no"
+

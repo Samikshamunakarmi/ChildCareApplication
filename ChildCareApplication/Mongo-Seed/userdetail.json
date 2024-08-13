@@ -1,0 +1,48 @@
+[
+  {
+    "user_id": "12345",
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "address": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "zip": "12345"
+    },
+    "date_of_birth": "1990-01-01",
+    "gender": "Male",
+    "username": "johndoe",
+    "password": "securepassword123",
+    "account_creation_date": "2023-01-01T12:00:00Z",
+    "last_login_date": "2023-06-01T12:00:00Z",
+    "membership": {
+      "type": "premium",
+      "expiry_date": "2024-01-01T12:00:00Z"
+    }
+  },
+  {
+    "user_id": "123456",
+    "firstname": "Sam",
+    "lastname": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "address": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "zip": "12345"
+    },
+    "date_of_birth": "1990-01-01",
+    "gender": "Male",
+    "username": "johndoe",
+    "password": "securepassword123",
+    "account_creation_date": "2023-01-01T12:00:00Z",
+    "last_login_date": "2023-06-01T12:00:00Z",
+    "membership": {
+      "type": "premium",
+      "expiry_date": "2024-01-01T12:00:00Z"
+    }
+  }
+]

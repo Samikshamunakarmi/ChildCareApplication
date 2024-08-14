@@ -1,8 +1,9 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MediatR;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ChildCareApplication.Domain
 {
-    public class ParentDetail
+    public class ParentDetail :BaseEntities, IRequest<bool>
     {
 
         [BsonElement("firstname")]
@@ -21,8 +22,19 @@ namespace ChildCareApplication.Domain
         [BsonElement("email")]
         public string Email { get; set; }
 
+        [BsonElement("dob")]
+        public DateTime DateOfBirth { get; set; }
+
+
         [BsonElement("address")]
         public AddressDetail Address { get; set; }
+
+        // New properties for child reference
+        [BsonElement("childId")]
+        public string ChildId { get; set; }
+
+        [BsonElement("childFullName")]
+        public string ChildFullName { get; set; }
 
     }
 }

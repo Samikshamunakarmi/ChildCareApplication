@@ -6,13 +6,15 @@ namespace ChildCareApplication.Application.Interfaces
     {
         Task CreateChildDetail(ChildInformation childInformation);
 
-        Task<ChildInformation> ReadChildInformationById(string childId);
+        Task<IEnumerable<ChildInformation>> GetAllChildDetails();
+
+
+        Task<ChildInformation> GetChildDetailByIdAsync(string childId);
 
         Task UpdateChildDetail(ChildInformation childInformation);
 
         Task DeleteChildDetail(string childId);
 
-        Task<IEnumerable<ChildInformation>> GetAllChildDetails();
-
+        
     }
 }

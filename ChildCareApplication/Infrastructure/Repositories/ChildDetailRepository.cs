@@ -36,7 +36,7 @@ namespace ChildCareApplication.Infrastructure.Repositories
 
         }
 
-        public async Task<ChildInformation> ReadChildInformationById(string childId)
+        public async Task<ChildInformation> GetChildDetailByIdAsync(string childId)
         {
             var queryableCollection = _collection.AsQueryable();
             var query = await queryableCollection.Where(x=>x.Id == childId).FirstOrDefaultAsync();

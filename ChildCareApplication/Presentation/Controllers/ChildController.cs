@@ -14,7 +14,7 @@ namespace ChildCareApplication.Presentation.Controllers
 
         public IMediator _mediator;
 
-        public ChildController(IMediator mediator )
+        public ChildController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -31,7 +31,7 @@ namespace ChildCareApplication.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new {error = "An unexpected error occured.", details = ex.Message});
+                return BadRequest(new { error = "An unexpected error occured.", details = ex.Message });
             }
         }
 
@@ -45,10 +45,61 @@ namespace ChildCareApplication.Presentation.Controllers
                 var result = _mediator.Send(new GetAllChildDetailsQuery());
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode('500', $"Intern server error:{ex.Message}");
+                return StatusCode(500, $"Intern server error:{ex.Message}");
+            }
+        }
+
+
+        [HttpGet("getListOfChildDetail/{Id}")]
+        [Authorize]
+
+            public async Task<IActionResult> GetListOfChildDetailById(string childId)
+        {
+            try
+            {
+                var result = _mediator.Send(new GetAllChildDetailsQueryByID(childId));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Intern server error:{ex.Message}");
+            }
+        }
+
+
+        [HttpPut("updateChildDetail/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateChildDetail(string id, [FromBody] ChildInformation childInformation)
+        {
+            try
+            {
+                var result = await _mediator.Send(childInformation);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = "An unexpected error occured.", details = ex.Message });
+            }
+        }
+
+        [HttpDelete("deleteChildDetail/{id}")]
+        [Authorize]
+        public async Task<IActionResult> deleteChildDetail(string id)
+        {
+            try
+            {
+                var result = await _mediator.Send(id);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = "An unexpected error occured.", details = ex.Message });
             }
         }
     }
+        
 }

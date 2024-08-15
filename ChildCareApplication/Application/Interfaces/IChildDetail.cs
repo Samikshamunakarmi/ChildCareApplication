@@ -6,7 +6,7 @@ namespace ChildCareApplication.Application.Interfaces
     {
         Task CreateChildDetail(ChildInformation childInformation);
 
-        Task<IEnumerable<ChildInformation>> GetAllChildDetails();
+        Task<List<ChildInformation>> GetAllChildDetails();
 
 
         Task<ChildInformation> GetChildDetailByIdAsync(string childId);

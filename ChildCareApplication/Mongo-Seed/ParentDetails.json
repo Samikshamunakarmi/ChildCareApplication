@@ -1,0 +1,75 @@
+[
+  {
+    "id": "66bd7aa9f23b91cb1772254c",
+    "dateAdded": "2024-08-15T03:35:32.754Z",
+    "firstName": "Sammy",
+    "lastName": "Shrestha",
+    "relationship": "mother",
+    "contactNumber": "9876543210",
+    "email": "samshrestha09@gmail.com",
+    "dateOfBirth": "1996-08-15T03:35:32.754Z",
+    "address": {
+      "state": "NSW",
+      "postalCode": 2123,
+      "suburb": "Eastwood",
+      "streetAddress": "Rowe St"
+    },
+    "childId": "66bd7aa7f23b91cb1772254b",
+    "childFullName": "abinash Shrestha"
+  },
+  {
+    "id": "66bd7aa9f23b91cb1772254d",
+    "dateAdded": "2024-08-15T03:35:32.754Z",
+    "firstName": "abinash",
+    "lastName": "Shrestha",
+    "relationship": "father",
+    "contactNumber": "9876543210",
+    "email": "abhishrestha09@gmail.com",
+    "dateOfBirth": "1996-08-15T03:35:32.754Z",
+    "address": {
+      "state": "NSW",
+      "postalCode": 2123,
+      "suburb": "Eastwood",
+      "streetAddress": "Rowe St"
+    },
+    "childId": "66bd7aa7f23b91cb1772254b",
+    "childFullName": "abinash Shrestha"
+  },
+  {
+    "id": "66bd7aa9f23b91cb1772254v",
+    "dateAdded": "2024-08-15T03:35:32.754Z",
+    "firstName": "Sammy",
+    "lastName": "Shrestha",
+    "relationship": "mother",
+    "contactNumber": "9876543210",
+    "email": "samshrestha09@gmail.com",
+    "dateOfBirth": "1996-08-15T03:35:32.754Z",
+    "address": {
+      "state": "NSW",
+      "postalCode": 2123,
+      "suburb": "Eastwood",
+      "streetAddress": "Rowe St"
+    },
+    "childId": "66bd7aa7f23b91cb1772254d",
+    "childFullName": "abinash Shrestha"
+  }
+  {
+    "id": "66bd7aa9f23b91cb1772254n",
+    "dateAdded": "2024-08-15T03:35:32.754Z",
+    "firstName": "Sammy",
+    "lastName": "Shrestha",
+    "relationship": "mother",
+    "contactNumber": "9876543210",
+    "email": "samshrestha09@gmail.com",
+    "dateOfBirth": "1996-08-15T03:35:32.754Z",
+    "address": {
+      "state": "NSW",
+      "postalCode": 2123,
+      "suburb": "Eastwood",
+      "streetAddress": "Rowe St"
+    },
+    "childId": "66bd7aa7f23b91cb1772254d",
+    "childFullName": "abinash Shrestha"
+  }
+
+]

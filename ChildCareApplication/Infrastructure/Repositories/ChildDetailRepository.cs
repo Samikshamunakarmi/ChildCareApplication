@@ -27,7 +27,7 @@ namespace ChildCareApplication.Infrastructure.Repositories
             await _collection.DeleteOneAsync(filter);
         }
 
-        public async Task<IEnumerable<ChildInformation>> GetAllChildDetails()
+        public async Task<List<ChildInformation>> GetAllChildDetails()
         {
             var result = await _collection.Find(_ => true).ToListAsync();
             return result;
@@ -35,9 +35,10 @@ namespace ChildCareApplication.Infrastructure.Repositories
 
         public async Task<ChildInformation> GetChildDetailByIdAsync(string childId)
         {
-            var queryableCollection = _collection.AsQueryable();
-            var query = await queryableCollection.Where(x=>x.Id == childId).FirstOrDefaultAsync();
-            return query;
+
+            var filter = Builders<ChildInformation>.Filter.Eq(x => x.Id, childId);
+            var result = await _collection.Find(filter).FirstOrDefaultAsync();
+            return result;
         }
 
         public async Task UpdateChildDetail(ChildInformation childInformation)

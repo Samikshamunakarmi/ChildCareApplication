@@ -16,7 +16,7 @@ namespace ChildCareApplication.Application.CommandHandlers.ChildQueryHandler
         public async Task<List<ChildInformation>> Handle(GetAllChildDetailsQuery request, CancellationToken cancellationToken)
         {
             var childDetail= await _childDetailRepository.GetAllChildDetails();
-            return childDetail.ToList();
+            return childDetail;
         }
     }
 }

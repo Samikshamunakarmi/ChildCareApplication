@@ -1,4 +1,5 @@
-﻿using ChildCareApplication.Application.CommandHandlers.ChildQueryHandler;
+﻿using ChildCareApplication.Application.CommandHandlers.ChildCommanHandler;
+using ChildCareApplication.Application.CommandHandlers.ChildQueryHandler;
 using ChildCareApplication.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -42,7 +43,7 @@ namespace ChildCareApplication.Presentation.Controllers
         {
             try
             {
-                var result = _mediator.Send(new GetAllChildDetailsQuery());
+                var result = await _mediator.Send(new GetAllChildDetailsQuery());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -52,14 +53,14 @@ namespace ChildCareApplication.Presentation.Controllers
         }
 
 
-        [HttpGet("getListOfChildDetail/{Id}")]
+        [HttpGet("getListOfChildDetailById/{Id}")]
         [Authorize]
 
-            public async Task<IActionResult> GetListOfChildDetailById(string childId)
+            public async Task<IActionResult> GetListOfChildDetailById(string Id)
         {
             try
             {
-                var result = _mediator.Send(new GetAllChildDetailsQueryByID(childId));
+                var result = await _mediator.Send(new GetAllChildDetailsQueryByID(Id));
                 return Ok(result);
             }
             catch (Exception ex)
@@ -75,7 +76,7 @@ namespace ChildCareApplication.Presentation.Controllers
         {
             try
             {
-                var result = await _mediator.Send(childInformation);
+                var result = await _mediator.Send(new UpdateChildDetailCommand(id, childInformation));
 
                 return Ok(result);
             }

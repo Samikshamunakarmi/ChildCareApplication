@@ -17,8 +17,7 @@ namespace ChildCareApplication.Infrastructure.Repositories
         }
         public async Task CreateChildDetail(ChildInformation childInformation)
         {
-           
-            await _collection.InsertOneAsync(childInformation);
+           await _collection.InsertOneAsync(childInformation);
         }
 
         public async Task DeleteChildDetail(string childId)
@@ -32,8 +31,6 @@ namespace ChildCareApplication.Infrastructure.Repositories
         {
             var result = await _collection.Find(_ => true).ToListAsync();
             return result;
-
-
         }
 
         public async Task<ChildInformation> GetChildDetailByIdAsync(string childId)

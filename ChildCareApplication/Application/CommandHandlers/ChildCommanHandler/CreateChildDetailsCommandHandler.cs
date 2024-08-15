@@ -1,25 +1,29 @@
-﻿using ChildCareApplication.Domain;
+﻿using ChildCareApplication.Application.Interfaces;
+using ChildCareApplication.Domain;
 using ChildCareApplication.Infrastructure.Repositories;
 using MediatR;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ChildCareApplication.Application.CommandHandlers.ChildCommanHandler
 
 {
     public class CreateChildDetailsCommandHandler : IRequestHandler<ChildInformation, bool>
     {
-        public readonly ChildDetailRepository _childDetailRepository;
-        public readonly ParentDetailRepository _parentDetailRepository;
+        private readonly IMongoClient _mongoClient;
+        public readonly IChildDetail _childDetailRepository;
+        public readonly IParent _parentDetailRepository;
 
-        public CreateChildDetailsCommandHandler(ChildDetailRepository childDetailRepository, ParentDetailRepository parentDetailRepository)
+        public CreateChildDetailsCommandHandler(IChildDetail childDetailRepository, IParent parentDetailRepository, IMongoClient mongoClient)
         {
             _childDetailRepository = childDetailRepository;
             _parentDetailRepository = parentDetailRepository;
+            _mongoClient = mongoClient;
         }
         public async Task<bool> Handle(ChildInformation request, CancellationToken cancellationToken)
         {
             if (String.IsNullOrEmpty(request.FirstName) || String.IsNullOrEmpty(request.LastName) ||
-            request.Address.Count()>0 || request.Parents.Count() >0)
+            request.Address.Count()<0 || request.Parents.Count() < 0)
 
             {
                 throw new InvalidOperationException("Please fill all the details");
@@ -28,50 +32,68 @@ namespace ChildCareApplication.Application.CommandHandlers.ChildCommanHandler
             if (request.DateOfBirth > DateTime.Now)
             {
                 throw new InvalidOperationException("Date of Birth cannot be in the future.");
-
             }
 
-
-
-            var childDetail = new ChildInformation
-                {
-                    Id = ObjectId.GenerateNewId().ToString(),
-                    DateAdded = DateTime.Now,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    Address = request.Address,
-                    Parents = request.Parents,
-                    Allergies = request.Allergies,
-                    DateOfBirth = request.DateOfBirth
-            };
-
-             await _childDetailRepository.CreateChildDetail(childDetail);
-
-
-
-            foreach (var parent in request.Parents)
+            using (var session = await _mongoClient.StartSessionAsync())
             {
-                // Assuming ParentInformation has a similar structure
-                var parentDetail = new ParentDetail
+
+                session.StartTransaction();
+
+                try
                 {
-                    Id = ObjectId.GenerateNewId().ToString(),
-                    FirstName = parent.FirstName,
-                    LastName = parent.LastName,
-                    ContactNumber = parent.ContactNumber,
-                    Address = parent.Address,
-                    Relationship = parent.Relationship,
-                    DateOfBirth = parent.DateOfBirth,
-                    ChildId = childDetail.Id,
-                    ChildFullName=$"{childDetail.FirstName} {childDetail.LastName}",
-                    DateAdded = DateTime.Now
+                   
+                    var childDetail = new ChildInformation
+                    {
+                        Id = ObjectId.GenerateNewId().ToString(),
+                        DateAdded = DateTime.Now,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Address = request.Address,
+                        Allergies = request.Allergies,
+                        DateOfBirth = request.DateOfBirth
+                    };
 
+                   
+                    await _childDetailRepository.CreateChildDetail(childDetail);
 
-                };
+                    
+                    var parentDetails = request.Parents.Select(parent => new ParentDetail
+                    {
+                        Id = ObjectId.GenerateNewId().ToString(),
+                        FirstName = parent.FirstName,
+                        LastName = parent.LastName,
+                        ContactNumber = parent.ContactNumber,
+                        Address = parent.Address,
+                        Relationship = parent.Relationship,
+                        DateOfBirth = parent.DateOfBirth,
+                        ChildId = childDetail.Id,
+                        ChildFullName = $"{childDetail.FirstName} {childDetail.LastName}",
+                        DateAdded = DateTime.Now
+                    }).ToList();
 
-                await _parentDetailRepository.CreateParentDetail(parentDetail);
+                    // Batch insert parent details
+                    await _parentDetailRepository.CreateParentDetailsBatch(parentDetails);
+
+                    // Update the child detail with parent references if needed (depends on your data model)
+                    childDetail.Parents = parentDetails;
+
+                    await _childDetailRepository.UpdateChildDetail(childDetail);
+
+                    // Commit transaction
+                    await session.CommitTransactionAsync();
+                }
+                catch
+                {
+                    // Abort transaction in case of an error
+                    await session.AbortTransactionAsync();
+                    throw;
+                }
             }
+
             return true;
-            
         }
+
+            
+        
     }
 }

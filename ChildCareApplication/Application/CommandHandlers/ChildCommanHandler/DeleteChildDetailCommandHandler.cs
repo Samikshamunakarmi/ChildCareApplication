@@ -1,13 +1,14 @@
-﻿using ChildCareApplication.Infrastructure.Repositories;
+﻿using ChildCareApplication.Application.Interfaces;
+using ChildCareApplication.Infrastructure.Repositories;
 using MediatR;
 
 namespace ChildCareApplication.Application.CommandHandlers.ChildCommanHandler
 {
     public class DeleteChildDetailCommandHandler : IRequestHandler<DeleteChildDetailCommand, bool>
     {
-        private readonly ChildDetailRepository _childDetailRepository;
+        private readonly IChildDetail _childDetailRepository;
 
-        public DeleteChildDetailCommandHandler(ChildDetailRepository childDetailRepository)
+        public DeleteChildDetailCommandHandler(IChildDetail childDetailRepository)
         {
             _childDetailRepository = childDetailRepository;
         }

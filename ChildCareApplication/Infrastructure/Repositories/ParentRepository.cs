@@ -59,6 +59,20 @@ namespace ChildCareApplication.Infrastructure.Repositories
 
         }
 
-        
+        public async Task CreateParentDetailsBatch(List<ParentDetail> parentDetails, IClientSessionHandle session = null)
+        {
+            var parentCollection = _collection.Database.GetCollection<ParentDetail>("ParentDetails");
+
+            if (session != null)
+            {
+                await parentCollection.InsertManyAsync(session, parentDetails);
+            }
+            else
+            {
+                await parentCollection.InsertManyAsync(parentDetails);
+            }
+        }
+
+       
     }
 }

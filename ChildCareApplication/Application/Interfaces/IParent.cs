@@ -1,4 +1,5 @@
 ﻿using ChildCareApplication.Domain;
+using MongoDB.Driver;
 
 namespace ChildCareApplication.Application.Interfaces
 {
@@ -15,5 +16,6 @@ namespace ChildCareApplication.Application.Interfaces
         Task UpdateParentDetail(ParentDetail parentInformation);
 
         Task DeleteParentDetail(string ParentId);
+        Task CreateParentDetailsBatch(List<ParentDetail> parentDetails, IClientSessionHandle session = null);
     }
 }

@@ -105,11 +105,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: policyName, builder =>
     {
-        builder.WithOrigins("http://localhost:5173")
-         .AllowAnyMethod()
+        builder.WithOrigins("http://localhost:5173") 
+               .AllowAnyMethod()
                .AllowAnyHeader()
-               .AllowCredentials(); // specifying the allowed origin
-    });
+               .AllowCredentials();
+     });
 });
 
 // Configure SmtpSettings from appsettings.json

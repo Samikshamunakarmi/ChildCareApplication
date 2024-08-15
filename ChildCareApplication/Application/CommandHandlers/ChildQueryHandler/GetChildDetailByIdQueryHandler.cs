@@ -1,4 +1,5 @@
-﻿using ChildCareApplication.Domain;
+﻿using ChildCareApplication.Application.Interfaces;
+using ChildCareApplication.Domain;
 using ChildCareApplication.Infrastructure.Repositories;
 using MediatR;
 
@@ -6,9 +7,9 @@ namespace ChildCareApplication.Application.CommandHandlers.ChildQueryHandler
 {
     public class GetChildDetailByIdQueryHandler : IRequestHandler<GetAllChildDetailsQueryByID, ChildInformation>
     {
-        public readonly ChildDetailRepository _childDetailRepository;
+        public readonly IChildDetail _childDetailRepository;
 
-        public GetChildDetailByIdQueryHandler(ChildDetailRepository childDetailRepository)
+        public GetChildDetailByIdQueryHandler(IChildDetail childDetailRepository)
         {
             _childDetailRepository = childDetailRepository;
         }

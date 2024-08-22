@@ -8,7 +8,7 @@ using MongoDB.Driver;
 namespace ChildCareApplication.Application.CommandHandlers.ChildCommanHandler
 
 {
-    public class CreateChildDetailsCommandHandler : IRequestHandler<ChildInformation, bool>
+    public class CreateChildDetailsCommandHandler : IRequestHandler<CreateChildDetailCommand, bool>
     {
        
         public readonly IChildDetail _childDetailRepository;
@@ -20,16 +20,16 @@ namespace ChildCareApplication.Application.CommandHandlers.ChildCommanHandler
             _parentDetailRepository = parentDetailRepository;
             
         }
-        public async Task<bool> Handle(ChildInformation request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateChildDetailCommand request, CancellationToken cancellationToken)
         {
             // Validation logic
-            if (string.IsNullOrEmpty(request.FirstName) || string.IsNullOrEmpty(request.LastName) ||
-                !request.Address.Any() || !request.Parents.Any())
+            if (string.IsNullOrEmpty(request.ChildInformation.FirstName) || string.IsNullOrEmpty(request.ChildInformation.LastName) ||
+                !request.ChildInformation.Address.Any() || !request.ChildInformation.Parents.Any())
             {
                 throw new InvalidOperationException("Please fill all the details.");
             }
 
-            if (request.DateOfBirth > DateTime.Now)
+            if (request.ChildInformation.DateOfBirth > DateTime.Now)
             {
                 throw new InvalidOperationException("Date of Birth cannot be in the future.");
             }
@@ -41,17 +41,17 @@ namespace ChildCareApplication.Application.CommandHandlers.ChildCommanHandler
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
                         DateAdded = DateTime.Now,
-                        FirstName = request.FirstName,
-                        LastName = request.LastName,
-                        Address = request.Address,
-                        Allergies = request.Allergies,
-                        DateOfBirth = request.DateOfBirth
+                        FirstName = request.ChildInformation.FirstName,
+                        LastName = request.ChildInformation.LastName,
+                        Address = request.ChildInformation.Address,
+                        Allergies = request.ChildInformation.Allergies,
+                        DateOfBirth = request.ChildInformation.DateOfBirth
                     };
 
                     await _childDetailRepository.CreateChildDetail(childDetail);
 
                     // Create parent details
-                    var parentDetails = request.Parents.Select(parent => new ParentDetail
+                    var parentDetails = request.ChildInformation.Parents.Select(parent => new ParentDetail
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
                         FirstName = parent.FirstName,

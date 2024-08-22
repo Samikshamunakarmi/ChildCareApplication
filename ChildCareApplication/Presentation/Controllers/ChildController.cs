@@ -26,7 +26,7 @@ namespace ChildCareApplication.Presentation.Controllers
         {
             try
             {
-                var result = await _mediator.Send(childInformation);
+                var result = await _mediator.Send(new CreateChildDetailCommand(childInformation));
 
                 return Ok(result);
             }

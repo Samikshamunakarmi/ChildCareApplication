@@ -98,39 +98,7 @@ public class LoginController : Controller
     }
 
 
-    /*
-     * Complete the 'matchingStrings' function below.
-     *
-     * The function is expected to return an INTEGER_ARRAY.
-     * The function accepts following parameters:
-     *  1. STRING_ARRAY stringList
-     *  2. STRING_ARRAY queries
-     */
-
-    public static List<int> matchingStrings(List<string> stringList, List<string> queries)
-    {
-        List<int> result = new List<int>();
-        var stringLookUp = stringList.GroupBy(x => x).
-        ToDictionary(x => x.Key, x => x.Count());
-
-
-        foreach (var query in queries)
-        {
-            if (stringLookUp.ContainsKey(query))
-            {
-                result.Add(stringLookUp[query]);
-            }
-            else
-            {
-                result.Add(0);
-            }
-        }
-
-        return result;
-
-
-
-    }
+    
 
 
 }

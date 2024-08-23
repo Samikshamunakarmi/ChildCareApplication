@@ -24,27 +24,16 @@ namespace ChildCareApplication.Application.CommandHandlers
         }
         public async Task<bool> Handle(CreateAccountDto request, CancellationToken cancellationToken)
         {
-           if(request.Password != request.ConfirmPassword)
-           {
-
-                throw new Exception("Password do not match");
-           }
-
-            var emailVerfying = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-
-            if(!emailVerfying.IsMatch(request.Email))
-            {
-                throw new Exception("Email is not correct");
-            }
            
-
-            var saltBytes = PasswordHelper.GenerateSalt();
-            string hashedPassword = PasswordHelper.HashPassword(request.Password, saltBytes);
 
             if (await _accountRepository.ExistingEmailAsync(request.Email) != null)
             {
                 throw new InvalidOperationException("Email already exists.");
             }
+
+            var saltBytes = PasswordHelper.GenerateSalt();
+            string hashedPassword = PasswordHelper.HashPassword(request.Password, saltBytes);
+
 
             var newAccount = new CreateAccount
             {

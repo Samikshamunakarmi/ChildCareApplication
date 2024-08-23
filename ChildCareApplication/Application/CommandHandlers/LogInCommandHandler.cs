@@ -20,21 +20,13 @@ namespace ChildCareApplication.Application.CommandHandlers
             var user = await _loginRepository.login(request.Email);
             if (user != null)
             {
-                 return ValidatePassword(user, request.Password);
+                 return PasswordHelper.VerifyPassword(request.Password, user.Password);
             }
 
             return false;
         }
 
-        public static bool ValidatePassword(CreateAccount user, string password)
-        {
-            if (user == null)
-            {
-                return false;
-            }
-
-            return PasswordHelper.VerifyPassword(password, user.Password);
-        }
+       
 
     }
 
